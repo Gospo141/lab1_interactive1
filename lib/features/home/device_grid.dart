@@ -5,7 +5,17 @@ import 'package:smart_home/shared/widgets/device_card.dart';
 // Адаптивна сітка карток: 2 колонки на телефоні, 3-4 на планшеті
 class DeviceGrid extends StatelessWidget {
   final List<Device> devices;
-  const DeviceGrid({required this.devices, super.key});
+  final void Function(Device, bool)? onToggle;
+  final ValueChanged<Device>? onEdit;
+  final ValueChanged<Device>? onDelete;
+
+  const DeviceGrid({
+    super.key,
+    required this.devices,
+    this.onToggle,
+    this.onEdit,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +33,12 @@ class DeviceGrid extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final device = devices[index];
-            return DeviceCard(device: device);
+            return DeviceCard(
+              device: device,
+              onToggle: onToggle == null ? null : (v) => onToggle!(device, v),
+              onEdit: onEdit == null ? null : () => onEdit!(device),
+              onDelete: onDelete == null ? null : () => onDelete!(device),
+            );
           },
         );
       },

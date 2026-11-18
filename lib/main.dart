@@ -3,9 +3,14 @@ import 'package:smart_home/features/auth/login_screen.dart';
 import 'package:smart_home/features/auth/registration_screen.dart';
 import 'package:smart_home/features/home/main_screen.dart';
 import 'package:smart_home/features/profile/profile_screen.dart';
+import 'package:smart_home/injection.dart';
 import 'package:smart_home/shared/theme/app_theme.dart';
 
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupDependencies();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,7 +22,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
       initialRoute: '/login',
-      // Іменовані маршрути між екранами
       routes: {
         '/login': (_) => const LoginScreen(),
         '/register': (_) => const RegistrationScreen(),
